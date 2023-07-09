@@ -1,0 +1,29 @@
+﻿@model AppMonitor.Application.Dtos.UpdateAppDto
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form asp-controller="TargetApp" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Url">Url</label>
+        <input asp-for="Url" class="form-control" />
+        <span asp-validation-for="Url" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Interval">Interval</label>
+        <input asp-for="Interval" type="number" class="form-control" />
+        <span asp-validation-for="Interval" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>

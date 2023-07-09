@@ -1,0 +1,43 @@
+﻿@model IEnumerable<AppMonitor.Application.Dtos.TargetAppDto>
+
+<h1>My Apps</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Url</th>
+            <th>Interval</th>
+            <th>Status</th>
+            <th>Last Checked</th>
+            <th colspan="2">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var app in Model)
+        {
+            <tr id="@($"app-{app.Id}")">
+                <td>@app.Name</td>
+                <td><a href="@app.Url" target="_blank">@app.Url</a></td>
+                <td>@app.Interval</td>
+                <td>@(app.IsUp ? "Up" : "Down")</td>
+                <td>@(app.LastChecked.HasValue ? app.LastChecked.Value.ToString("g") : "N/A")</td>
+                <td><button class="btn btn-primary" onclick="checkApp(@app.Id)">Check</button></td>
+                <td><button class="btn btn-danger" onclick="checkApp(@app.Id)">Delete</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function checkApp(id) {
+            $.post("@Url.Action("Check")", { id: id }, function (data) {
+                var app = data.app;
+                var row = $("#app-" + app.id);
+                row.find("td:eq(3)").text(app.isUp ? "Up" : "Down");
+                row.find("td:eq(4)").text(app.lastChecked);
+            });
+        }
+    </script>
+}
